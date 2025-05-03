@@ -5,3 +5,5 @@ class SocialMediaPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = SocialMediaPost
         fields = '__all__'
+
+

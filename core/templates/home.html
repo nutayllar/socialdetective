@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text Normalization Demo</title>
+</head>
+<body>
+    <h1>Text Normalization</h1>
+    <form method="post">
+        {% csrf_token %}
+        <textarea name="text" rows="5" cols="50" placeholder="Enter text to normalize">{{ input_text }}</textarea><br>
+        <button type="submit">Normalize</button>
+    </form>
+
+    {% if normalized_text %}
+        <h3>Normalized Output:</h3>
+        <p>{{ normalized_text }}</p>
+    {% endif %}
+</body>
+</html>
