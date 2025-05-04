@@ -1,9 +1,7 @@
 from rest_framework import serializers
-from .models import SocialMediaPost
+from .models import Post
 
-class SocialMediaPostSerializer(serializers.ModelSerializer):
+class PostSerializer(serializers.ModelSerializer):
     class Meta:
-        model = SocialMediaPost
-        fields = '__all__'
-
-
+        model = Post
+        fields = ['id', 'platform', 'username', 'text', 'timestamp']

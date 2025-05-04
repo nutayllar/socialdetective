@@ -4,8 +4,8 @@ from rest_framework import status
 import torch
 from transformers import pipeline
 from rest_framework.generics import ListCreateAPIView
-from .models import SocialMediaPost
-from .serializers import SocialMediaPostSerializer
+from .models import SocialMediaPost, Post
+from .serializers import SocialMediaPostSerializer, PostSerializer
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views import View
@@ -218,6 +218,24 @@ def search_social_media(request):
             }
         }
     })
+
+class SocialSearchView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        query = request.data.get('query', '')
+        platform = request.data.get('platform', '').lower()
+        posts = Post.objects.all()
+
+        if platform in ['twitter', 'instagram']:
+            posts = posts.filter(platform__iexact=platform)
+        if query:
+            posts = posts.filter(
+                text__icontains=query
+            )  # You can expand this to search username/hashtags
+
+        serializer = PostSerializer(posts[:50], many=True)  # Limit results
+        return Response({'results': serializer.data}, status=status.HTTP_200_OK)
 
         
         
